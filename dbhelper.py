@@ -68,6 +68,26 @@ class DB:
                 return flights
             except Exception as Error:
                 print(f"Error : while fetching flights {Error}")
+    def fetch_airport_flights(self, airport):
+        if self.cursor:
+            try:
+                self.cursor.execute("""
+                    SELECT
+                        airline,
+                        flight,
+                        departure_time,
+                        duration,
+                        price
+                    FROM airlines_flights_data
+                    WHERE airport = %s
+                    LIMIT 100;
+                """, (airport,))
+
+                return self.cursor.fetchall()
+
+            except Exception as Error:
+                print(f"Error while fetching airport flights : {Error}")
+
         
     def fetch_airlines(self):
         query = "SELECT DISTINCT airline FROM airlines_flights_data"

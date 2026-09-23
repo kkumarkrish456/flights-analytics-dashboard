@@ -828,8 +828,8 @@ elif user_option == "Airport_Data":
     """)
 
 
-    flights = db.fetch_flights(
-        airport=selected_airport
+    flights = db.fetch_airport_flights(
+        selected_airport
     )
 
     df = pd.DataFrame(
