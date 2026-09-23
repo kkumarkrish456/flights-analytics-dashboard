@@ -5,6 +5,26 @@ from dbhelper import DB
 
 db = DB()
 
+@st.cache_data
+def get_airport_data():
+    return db.fetch_airport()
+
+
+@st.cache_data
+def get_avg_price_by_airport():
+    return db.fetch_avg_price_by_airport()
+
+
+@st.cache_data
+def get_airport_connectivity():
+    return db.fetch_airport_connectivity()
+
+
+@st.cache_data
+def get_airport_destinations(airport):
+    return db.fetch_airport_destinations(airport)
+
+
 st.set_page_config(page_title="Flights Analytics Dashboard", page_icon="✈️", layout="wide")
 
 st.sidebar.title("Flights Analytics Dashboard")
@@ -108,7 +128,7 @@ if user_option == 'Project Overview':
 
     * **Email:** kkumarkrish.456@gmail.com
     * **LinkedIn:** https://www.linkedin.com/in/krish-kumar-132a55432/
-    * **GitHub:** 
+    * **GitHub:** https://github.com/kkumarkrish456
 
     ---
 
@@ -786,7 +806,7 @@ elif user_option == "Airport_Data":
         "Analyze airport traffic, connectivity and fare patterns."
     )
 
-    airport, airport_code = db.fetch_airport()
+    airport, airport_code = get_airport_data()
 
     selected_airport = st.selectbox(
         "Select Airport",
@@ -839,9 +859,8 @@ elif user_option == "Airport_Data":
     with col1:
 
         destinations, frequency = (
-            db.fetch_airport_destinations(
-                selected_airport
-            )
+            get_airport_destinations(
+            selected_airport)
         )
 
         fig = px.bar(
@@ -862,7 +881,7 @@ elif user_option == "Airport_Data":
     with col2:
 
         airport_codes, avg_price = (
-            db.fetch_avg_price_by_airport()
+            get_avg_price_by_airport()
         )
 
         fig = px.bar(
