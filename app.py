@@ -798,7 +798,7 @@ elif user_option == "Airlines Data":
         use_container_width=True,
         hide_index=True
     ) 
-elif user_option == "Airport_Data":
+elif user_option == "Airport Data":
 
     st.title("🛫 Airport Data")
 
