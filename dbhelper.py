@@ -1,9 +1,14 @@
 import psycopg2
 import os
 import pandas as pd
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class DB:
     def __init__(self):
+        self.conn = None
+        self.cursor = None
         try:
             self.conn = psycopg2.connect(
                 host=os.getenv("DB_HOST"),
