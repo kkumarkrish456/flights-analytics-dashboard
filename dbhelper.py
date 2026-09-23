@@ -98,11 +98,27 @@ class DB:
     def fetch_airport(self):
         if self.cursor:
             try:
-                query = "SELECT DISTINCT airport,airport_code FROM airlines_flights_data"
-                df =pd.read_sql(query,self.conn)
-                return df["airport"].to_list(),df["airport_code"].to_list()
+                self.cursor.execute("""
+                    SELECT DISTINCT airport, airport_code
+                    FROM airlines_flights_data
+                    WHERE airport IS NOT NULL
+                    AND airport_code IS NOT NULL
+                    ORDER BY airport;
+                """)
+
+                data = self.cursor.fetchall()
+
+                airports = []
+                airport_codes = []
+
+                for item in data:
+                    airports.append(item[0])
+                    airport_codes.append(item[1])
+
+                return airports, airport_codes
+
             except Exception as Error:
-                print(f"Error while fetching freq. count of each airline : {Error}")
+                print(f"Error while fetching airports : {Error}")
     def fetch_airport_flight_frequency(self):
         if self.cursor:
             try:
